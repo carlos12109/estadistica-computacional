@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual de Usuario - Regresión Logística Binomial</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-top: 30px;
+            border-left: 5px solid #3498db;
+            padding-left: 10px;
+        }
+
+        h3 {
+            color: #34495e;
+            margin-top: 20px;
+        }
+
+        .toc {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .toc h2 {
+            margin-top: 0;
+            border: none;
+            padding: 0;
+        }
+
+        .toc ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+
+        .toc li {
+            margin: 10px 0;
+        }
+
+        .toc a {
+            text-decoration: none;
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        .warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .code {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 10px;
+            font-family: monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .screenshot {
+            background-color: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            font-style: italic;
+            color: #6c757d;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 5px;
+        }
+
+        .step {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .formula {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>📚 Manual de Usuario<br>Aplicación de Regresión Logística Binomial</h1>
+
+        <div class="info">
+            <strong>Versión:</strong> 1.0<br>
+            <strong>Fecha:</strong> 2025<br>
+            <strong>Plataforma:</strong> Shiny Web Application
+        </div>
+
+        <div class="toc">
+            <h2>📑 Tabla de Contenidos</h2>
+            <ul>
+                <li><a href="#introduccion">1. Introducción</a></li>
+                <li><a href="#requisitos">2. Requisitos del Sistema</a></li>
+                <li><a href="#inicio">3. Inicio Rápido</a></li>
+                <li><a href="#datos">4. Preparación de Datos</a></li>
+                <li><a href="#interfaz">5. Navegación por la Interfaz</a></li>
+                <li><a href="#carga">6. Carga de Datos</a></li>
+                <li><a href="#visualizacion">7. Visualización de Datos</a></li>
+                <li><a href="#analisis">8. Análisis de Regresión</a></li>
+                <li><a href="#bootstrap">9. Validación Bootstrap</a></li>
+                <li><a href="#redneuronal">10. Red Neuronal</a></li>
+                <li><a href="#prediccion">11. Predicción y Simulación</a></li>
+                <li><a href="#graficos">12. Gráficos</a></li>
+                <li><a href="#reportes">13. Generación de Reportes</a></li>
+                <li><a href="#interpretacion">14. Interpretación de Resultados</a></li>
+                <li><a href="#problemas">15. Solución de Problemas</a></li>
+                <li><a href="#glosario">16. Glosario</a></li>
+            </ul>
+        </div>
+
+        <h2 id="introduccion">1. 🎯 Introducción</h2>
+
+        <h3>¿Qué es la Regresión Logística Binomial?</h3>
+        <p>La regresión logística binomial es una técnica estadística utilizada para predecir la probabilidad de que
+            ocurra un evento binario (sí/no, éxito/fracaso, 0/1) basándose en una o más variables predictoras.</p>
+
+        <div class="formula">
+            P(Y=1) = 1 / (1 + e^-(β₀ + β₁X₁ + β₂X₂ + ... + βₙXₙ))
+        </div>
+
+        <h3>¿Para qué sirve esta aplicación?</h3>
+        <ul>
+            <li>Analizar relaciones entre variables predictoras y una variable respuesta binaria</li>
+            <li>Crear modelos predictivos para clasificación binaria</li>
+            <li>Identificar variables significativas</li>
+            <li>Evaluar la calidad del modelo</li>
+            <li>Realizar predicciones sobre nuevos datos</li>
+        </ul>
+
+        <h2 id="requisitos">2. 💻 Requisitos del Sistema</h2>
+
+        <h3>Navegadores Compatibles</h3>
+        <ul>
+            <li>Google Chrome (versión 60+)</li>
+            <li>Mozilla Firefox (versión 55+)</li>
+            <li>Safari (versión 11+)</li>
+            <li>Microsoft Edge (versión 79+)</li>
+        </ul>
+
+        <h3>Requisitos de Datos</h3>
+        <ul>
+            <li>Formatos aceptados: Excel (.xlsx, .xls) o CSV (.csv)</li>
+            <li>Variable dependiente: debe ser binaria (0/1)</li>
+            <li>Variables independientes: numéricas o categóricas</li>
+            <li>Sin valores faltantes en la variable dependiente</li>
+        </ul>
+
+        <h2 id="inicio">3. 🚀 Inicio Rápido</h2>
+
+        <div class="step">
+            <h3>Paso 1: Acceder a la Aplicación</h3>
+            <p>Abra su navegador web y navegue a la URL de la aplicación proporcionada por su administrador.</p>
+        </div>
+
+        <div class="step">
+            <h3>Paso 2: Cargar Datos</h3>
+            <p>En el panel lateral izquierdo, haga clic en "Seleccionar" para cargar su archivo de datos.</p>
+        </div>
+
+        <div class="step">
+            <h3>Paso 3: Seleccionar Variables</h3>
+            <p>Elija la variable dependiente (Y) y las variables independientes (X) de las listas desplegables.</p>
+        </div>
+
+        <div class="step">
+            <h3>Paso 4: Ejecutar Análisis</h3>
+            <p>Navegue a la pestaña "Análisis" y haga clic en "REALIZAR ANÁLISIS".</p>
+        </div>
+
+        <h2 id="datos">4. 📊 Preparación de Datos</h2>
+
+        <h3>Formato de Archivo Excel/CSV</h3>
+        <p>Su archivo debe tener la siguiente estructura:</p>
+
+        <table>
+            <tr>
+                <th>Variable_Y</th>
+                <th>Variable_X1</th>
+                <th>Variable_X2</th>
+                <th>Variable_X3</th>
+            </tr>
+            <tr>
+                <td>0</td>
+                <td>23.5</td>
+                <td>Masculino</td>
+                <td>Alto</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>45.2</td>
+                <td>Femenino</td>
+                <td>Bajo</td>
+            </tr>
+            <tr>
+                <td>0</td>
+                <td>34.8</td>
+                <td>Masculino</td>
+                <td>Medio</td>
+            </tr>
+        </table>
+
+        <div class="warning">
+            <strong>⚠️ Importante:</strong>
+            <ul>
+                <li>La primera fila debe contener los nombres de las variables</li>
+                <li>La variable dependiente debe ser 0 o 1</li>
+                <li>No use espacios en los nombres de variables, use guión bajo (_)</li>
+                <li>Evite caracteres especiales en los nombres</li>
+            </ul>
+        </div>
+
+        <h2 id="interfaz">5. 🖥️ Navegación por la Interfaz</h2>
+
+        <h3>Panel Lateral (Sidebar)</h3>
+        <div class="screenshot">
+            [Panel lateral con opciones de menú y carga de archivos]
+        </div>
+
+        <p>El panel lateral contiene:</p>
+        <ul>
+            <li><strong>Menú de navegación:</strong> Enlaces a todas las secciones</li>
+            <li><strong>Carga de archivos:</strong> Botón para seleccionar archivo</li>
+            <li><strong>Selección de variables:</strong> Listas desplegables que aparecen después de cargar datos</li>
+        </ul>
+
+        <h3>Área Principal</h3>
+        <p>El área principal muestra el contenido de la pestaña seleccionada:</p>
+        <ul>
+            <li>📊 <strong>Análisis:</strong> Configuración y resultados del modelo</li>
+            <li>👁 <strong>Ver Datos:</strong> Tabla con los datos cargados</li>
+            <li>📈 <strong>Gráficos:</strong> Visualizaciones del modelo</li>
+            <li>🎯 <strong>Predicción:</strong> Calculadora, lotes y simulación</li>
+            <li>🔄 <strong>Bootstrap:</strong> Validación robusta de coeficientes</li>
+            <li>🧠 <strong>Red Neuronal:</strong> Modelo alternativo de IA</li>
+            <li>📄 <strong>Reportes:</strong> Generación de informes</li>
+            <li>ℹ <strong>Ayuda:</strong> Guía rápida integrada</li>
+        </ul>
+
+        <h2 id="carga">6. 📁 Carga de Datos</h2>
+
+        <h3>Proceso de Carga</h3>
+        <ol>
+            <li>Haga clic en el botón "Seleccionar" en el panel lateral</li>
+            <li>Navegue hasta su archivo en el explorador</li>
+            <li>Seleccione el archivo (.xlsx, .xls o .csv)</li>
+            <li>Espere el mensaje de confirmación: "✅ Archivo cargado exitosamente!"</li>
+        </ol>
+
+        <h3>Selección de Variables</h3>
+        <p>Después de cargar el archivo:</p>
+
+        <div class="info">
+            <strong>Variable Dependiente (Y):</strong>
+            <ul>
+                <li>Seleccione la variable que desea predecir</li>
+                <li>Debe ser binaria (0/1)</li>
+                <li>Representa el evento de interés</li>
+            </ul>
+        </div>
+
+        <div class="info">
+            <strong>Variables Independientes (X):</strong>
+            <ul>
+                <li>Seleccione una o más variables predictoras</li>
+                <li>Pueden ser numéricas o categóricas</li>
+                <li>Use Ctrl+Click para selección múltiple</li>
+            </ul>
+        </div>
+
+        <h2 id="visualizacion">7. 👁 Visualización de Datos</h2>
+
+        <p>La pestaña "Ver Datos" muestra:</p>
+
+        <h3>Resumen de Datos</h3>
+        <ul>
+            <li><strong>Número de filas:</strong> Total de observaciones</li>
+            <li><strong>Número de columnas:</strong> Total de variables</li>
+            <li><strong>Variables numéricas:</strong> Cantidad de variables cuantitativas</li>
+            <li><strong>Variables categóricas:</strong> Cantidad de variables cualitativas</li>
+        </ul>
+
+        <h3>Tabla de Datos</h3>
+        <p>Características de la tabla:</p>
+        <ul>
+            <li>Búsqueda global y por columna</li>
+            <li>Ordenamiento por columnas</li>
+            <li>Paginación ajustable</li>
+            <li>Exportación a Excel/CSV</li>
+        </ul>
+
+        <h3>Estadísticas Descriptivas</h3>
+        <p>Para variables numéricas se muestra:</p>
+        <ul>
+            <li>Media</li>
+            <li>Mediana</li>
+            <li>Desviación estándar</li>
+            <li>Mínimo y máximo</li>
+            <li>Valores faltantes (NA)</li>
+        </ul>
+
+        <h2 id="analisis">8. 🔍 Análisis de Regresión</h2>
+
+        <h3>Configuración del Análisis</h3>
+
+        <div class="step">
+            <h4>1. Nivel de Significancia (Alpha)</h4>
+            <ul>
+                <li>Valor por defecto: 0.05</li>
+                <li>Rango permitido: 0.01 - 0.10</li>
+                <li>Determina qué variables se consideran significativas</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h4>2. Punto de Corte</h4>
+            <ul>
+                <li>Valor por defecto: 0.5</li>
+                <li>Rango permitido: 0.1 - 0.9</li>
+                <li>Umbral para clasificar predicciones como 0 o 1</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h4>3. Verificación de Multicolinealidad</h4>
+            <ul>
+                <li>Calcula el VIF (Factor de Inflación de Varianza)</li>
+                <li>VIF > 5 indica posible multicolinealidad</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h4>4. Modelo Reducido</h4>
+            <ul>
+                <li>Crea un modelo solo con variables significativas</li>
+                <li>Útil para simplificar el modelo</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h4>5. Selección Automática (Stepwise AIC)</h4>
+            <ul>
+                <li>Algoritmo que busca el mejor modelo minimizando el AIC</li>
+                <li>Prueba combinaciones de variables automáticamente</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h4>6. Validación Cruzada (K-Fold)</h4>
+            <ul>
+                <li>Divide los datos en K partes para probar el modelo</li>
+                <li>Evalúa la estabilidad de la precisión</li>
+            </ul>
+        </div>
+
+        <h3>Ejecutar el Análisis</h3>
+        <ol>
+            <li>Configure los parámetros según sus necesidades</li>
+            <li>Haga clic en "REALIZAR ANÁLISIS"</li>
+            <li>Espere a que se complete el procesamiento</li>
+            <li>Revise los resultados que aparecen automáticamente</li>
+        </ol>
+
+        <h3>Resultados del Análisis</h3>
+
+        <h4>Resumen del Modelo</h4>
+        <table>
+            <tr>
+                <th>Medida</th>
+                <th>Descripción</th>
+            </tr>
+            <tr>
+                <td>Log-verosimilitud</td>
+                <td>Medida de ajuste del modelo (mayor es mejor)</td>
+            </tr>
+            <tr>
+                <td>R² Cox & Snell</td>
+                <td>Proporción de varianza explicada (0-1)</td>
+            </tr>
+            <tr>
+                <td>R² Nagelkerke</td>
+                <td>R² ajustado para regresión logística (0-1)</td>
+            </tr>
+            <tr>
+                <td>AIC</td>
+                <td>Criterio de información (menor es mejor)</td>
+            </tr>
+            <tr>
+                <td>BIC</td>
+                <td>Criterio bayesiano (menor es mejor)</td>
+            </tr>
+        </table>
+
+        <h4>Prueba de Hosmer-Lemeshow</h4>
+        <ul>
+            <li>Evalúa la bondad de ajuste del modelo</li>
+            <li>H₀: El modelo se ajusta bien a los datos</li>
+            <li>p-valor > 0.05: Buen ajuste</li>
+            <li>p-valor ≤ 0.05: Ajuste pobre</li>
+        </ul>
+
+        <h4>Variables en la Ecuación</h4>
+        <p>Para cada variable se muestra:</p>
+        <ul>
+            <li><strong>B:</strong> Coeficiente de regresión</li>
+            <li><strong>Error estándar:</strong> Precisión de la estimación</li>
+            <li><strong>Wald:</strong> Estadístico de prueba</li>
+            <li><strong>Sig:</strong> p-valor (significancia)</li>
+            <li><strong>Exp(B):</strong> Odds ratio</li>
+        </ul>
+
+        <div class="success">
+            Variables con fondo <span style="background-color: #d4edda;">verde</span> son significativas (p < alpha)
+                </div>
+
+                <div class="warning">
+                    Variables con fondo <span style="background-color: #f8d7da;">rojo</span> no son significativas (p ≥
+                    alpha)
+                </div>
+
+                <h2 id="bootstrap">9. 🔄 Validación Bootstrap</h2>
+                <p>El método Bootstrap permite estimar la robustez de los coeficientes mediante remuestreo.</p>
+                <ul>
+                    <li><strong>Configuración:</strong> Elija el número de réplicas (R) y el nivel de confianza.</li>
+                    <li><strong>Tabla de Resultados:</strong> Muestra el sesgo (Bias), error estándar e intervalos de
+                        confianza.</li>
+                    <li><strong>Interpretación:</strong> Si el intervalo de confianza no incluye el cero, la variable es
+                        significativa.</li>
+                    <li><strong>Gráficos:</strong> Histogramas de la distribución de los coeficientes simulados.</li>
+                </ul>
+
+                <h2 id="redneuronal">10. 🧠 Red Neuronal</h2>
+                <p>Entrenamiento de un Perceptrón Multicapa como alternativa a la regresión logística.</p>
+                <ul>
+                    <li><strong>Nodos:</strong> Cantidad de neuronas en la capa oculta.</li>
+                    <li><strong>Decay:</strong> Parámetro de regularización para evitar sobreajuste.</li>
+                    <li><strong>Bagging:</strong> Técnica de ensamblaje que entrena múltiples redes y promedia los
+                        resultados para mayor estabilidad.</li>
+                    <li><strong>Comparación ROC:</strong> Gráfico que enfrenta el rendimiento de la Regresión Logística
+                        vs la Red Neuronal.</li>
+                </ul>
+
+                <h2 id="prediccion">11. 🎯 Predicción y Simulación</h2>
+
+                <h3>Pestaña 1: Predicción Individual</h3>
+
+                <div class="step">
+                    <h4>Paso 1: Seleccionar Modelo</h4>
+                    <ul>
+                        <li><strong>Modelo Completo:</strong> Usa todas las variables</li>
+                        <li><strong>Modelo Reducido:</strong> Solo variables significativas</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <h4>Paso 2: Ingresar Valores</h4>
+                    <ul>
+                        <li>Complete los valores para cada variable predictora</li>
+                        <li>Variables numéricas: ingrese el valor</li>
+                        <li>Variables categóricas: seleccione de la lista</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <h4>Paso 3: Calcular Probabilidad</h4>
+                    <ul>
+                        <li>Haga clic en "Calcular Probabilidad"</li>
+                        <li>Observe el resultado en porcentaje</li>
+                        <li>Vea la clasificación predicha (0 o 1)</li>
+                    </ul>
+                </div>
+
+                <div class="info">
+                    <strong>Intervalo Bootstrap (IC):</strong>
+                    <p>Active la casilla "Calcular Intervalo Bootstrap" para obtener un rango de confianza de la
+                        predicción, el sesgo y el error estándar.</p>
+                </div>
+
+                <h3>Interpretación del Resultado</h3>
+                <ul>
+                    <li><strong>Probabilidad:</strong> Porcentaje de probabilidad del evento (0-100%)</li>
+                    <li><strong>Clasificación:</strong>
+                        <ul>
+                            <li>POSITIVO (1): Probabilidad > punto de corte</li>
+                            <li>NEGATIVO (0): Probabilidad ≤ punto de corte</li>
+                        </ul>
+                    </li>
+                    <li><strong>Indicador visual:</strong> Gauge que muestra gráficamente la probabilidad</li>
+                </ul>
+
+                <h3>Pestaña 2: Predicción por Lotes</h3>
+                <ul>
+                    <li>Descargue la plantilla CSV.</li>
+                    <li>Llene los datos de múltiples observaciones.</li>
+                    <li>Suba el archivo para obtener probabilidades para todas las filas a la vez.</li>
+                </ul>
+
+                <h3>Pestaña 3: Simulación de Escenarios</h3>
+                <ul>
+                    <li>Permite variar una variable (ej. Edad) manteniendo las demás fijas.</li>
+                    <li>Visualice cómo cambia la probabilidad de éxito a lo largo del rango de la variable.</li>
+                    <li>Útil para análisis de sensibilidad ("¿Qué pasa si...?").</li>
+                </ul>
+
+                <h2 id="graficos">12. 📈 Gráficos</h2>
+
+                <h3>Tipos de Gráficos Disponibles</h3>
+
+                <h4>1. Curva ROC</h4>
+                <ul>
+                    <li>Evalúa el rendimiento del clasificador</li>
+                    <li>AUC (Área bajo la curva): 0.5-1.0</li>
+                    <li>AUC > 0.7: Buen modelo</li>
+                    <li>AUC > 0.8: Muy buen modelo</li>
+                </ul>
+
+                <h4>2. Gráfico de Residuos</h4>
+                <ul>
+                    <li>Muestra la distribución de residuos</li>
+                    <li>Detecta patrones no deseados</li>
+                    <li>Residuos deben estar dispersos aleatoriamente</li>
+                </ul>
+
+                <h4>3. Probabilidades Predichas</h4>
+                <ul>
+                    <li>Visualiza las probabilidades por observación</li>
+                    <li>Colores según clase real (0 o 1)</li>
+                    <li>Línea de corte para clasificación</li>
+                </ul>
+
+                <h4>4. Matriz de Correlación</h4>
+                <ul>
+                    <li>Muestra correlaciones entre variables numéricas</li>
+                    <li>Valores de -1 a 1</li>
+                    <li>Detecta multicolinealidad</li>
+                </ul>
+
+                <h4>5. VIF (Factor de Inflación de Varianza)</h4>
+                <ul>
+                    <li>Evalúa multicolinealidad</li>
+                    <li>VIF < 5: Sin problemas</li>
+                    <li>VIF 5-10: Multicolinealidad moderada</li>
+                    <li>VIF > 10: Multicolinealidad severa</li>
+                </ul>
+
+                <h4>6. Comparación de Modelos</h4>
+                <ul>
+                    <li>Compara modelo completo vs reducido</li>
+                    <li>Métricas: Precisión, Sensibilidad, Especificidad</li>
+                    <li>Gráfico de barras agrupadas</li>
+                </ul>
+
+                <h4>7. Distancia de Cook</h4>
+                <ul>
+                    <li>Detecta observaciones influyentes (outliers).</li>
+                    <li>Barras rojas indican datos que distorsionan el modelo.</li>
+                </ul>
+
+                <h4>8. Análisis de Punto de Corte</h4>
+                <ul>
+                    <li>Muestra cómo varían la Precisión, Sensibilidad y Especificidad según el umbral elegido.</li>
+                    <li>Ayuda a elegir un punto de corte mejor que el 0.5 por defecto.</li>
+                </ul>
+
+                <h3>Interacción con Gráficos</h3>
+                <p>Los gráficos son interactivos (Plotly):</p>
+                <ul>
+                    <li><strong>Zoom:</strong> Seleccione área con el mouse</li>
+                    <li><strong>Pan:</strong> Arrastre mientras mantiene presionado</li>
+                    <li><strong>Hover:</strong> Pase el mouse para ver valores</li>
+                    <li><strong>Descargar:</strong> Use el botón de cámara en la barra de herramientas</li>
+                </ul>
+
+                <h2 id="reportes">13. 📄 Generación de Reportes</h2>
+
+                <h3>Formatos Disponibles</h3>
+
+                <div class="info">
+                    <h4>HTML (Recomendado)</h4>
+                    <ul>
+                        <li>Reporte completo con formato profesional</li>
+                        <li>Incluye tablas, métricas y estilos</li>
+                        <li>Se abre en cualquier navegador</li>
+                        <li>Puede imprimirse o guardarse como PDF</li>
+                    </ul>
+                </div>
+
+                <div class="info">
+                    <h4>CSV</h4>
+                    <ul>
+                        <li>Exporta coeficientes del modelo</li>
+                        <li>Formato tabular para Excel</li>
+                        <li>Útil para análisis adicional</li>
+                    </ul>
+                </div>
+
+                <h3>Personalización</h3>
+                <ul>
+                    <li><strong>Título:</strong> Puede cambiar el título del reporte.</li>
+                    <li><strong>Logo:</strong> Puede subir una imagen para el encabezado.</li>
+                </ul>
+
+                <h3>Opciones de Contenido</h3>
+                <p>Puede incluir o excluir:</p>
+                <ul>
+                    <li>✓ Resumen de datos</li>
+                    <li>✓ Resumen del modelo completo</li>
+                    <li>✓ Modelo reducido</li>
+                    <li>✓ Prueba de Hosmer-Lemeshow</li>
+                    <li>✓ Tabla de clasificación</li>
+                    <li>✓ Variables en la ecuación</li>
+                    <li>✓ Gráficos (nota informativa)</li>
+                </ul>
+
+                <h3>Proceso de Generación</h3>
+                <ol>
+                    <li>Seleccione las opciones deseadas</li>
+                    <li>Elija el formato (HTML o CSV)</li>
+                    <li>Haga clic en "Descargar Reporte"</li>
+                    <li>El archivo se descargará automáticamente</li>
+                    <li><strong>Nota PDF:</strong> Si no tiene LaTeX, use el botón "Instalar TinyTeX" en la misma
+                        pestaña.</li>
+                </ol>
+
+                <h2 id="interpretacion">14. 📖 Interpretación de Resultados</h2>
+
+                <h3>Coeficientes (B)</h3>
+                <ul>
+                    <li><strong>B positivo:</strong> Aumenta la probabilidad del evento</li>
+                    <li><strong>B negativo:</strong> Disminuye la probabilidad del evento</li>
+                    <li><strong>Magnitud:</strong> Indica la fuerza del efecto</li>
+                </ul>
+
+                <h3>Odds Ratio (Exp(B))</h3>
+                <table>
+                    <tr>
+                        <th>Valor</th>
+                        <th>Interpretación</th>
+                    </tr>
+                    <tr>
+                        <td>Exp(B) = 1</td>
+                        <td>No hay efecto</td>
+                    </tr>
+                    <tr>
+                        <td>Exp(B) > 1</td>
+                        <td>Aumenta las odds del evento</td>
+                    </tr>
+                    <tr>
+                        <td>Exp(B) < 1</td>
+                        <td>Disminuye las odds del evento</td>
+                    </tr>
+                </table>
+
+                <div class="info">
+                    <strong>Ejemplo:</strong> Si Exp(B) = 2.5 para la variable "Edad", significa que por cada unidad de
+                    aumento en edad, las odds del evento se multiplican por 2.5.
+                </div>
+
+                <h3>Métricas de Rendimiento</h3>
+
+                <h4>Precisión Global</h4>
+                <p>Porcentaje de predicciones correctas (0-100%)</p>
+                <ul>
+                    <li>> 90%: Excelente</li>
+                    <li>80-90%: Muy bueno</li>
+                    <li>70-80%: Bueno</li>
+                    <li>
+                        < 70%: Mejorable</li>
+                </ul>
+
+                <h4>Sensibilidad (Tasa de Verdaderos Positivos)</h4>
+                <p>Capacidad de detectar casos positivos</p>
+                <p>Sensibilidad = VP / (VP + FN)</p>
+
+                <h4>Especificidad (Tasa de Verdaderos Negativos)</h4>
+                <p>Capacidad de detectar casos negativos</p>
+                <p>Especificidad = VN / (VN + FP)</p>
+
+                <h2 id="problemas">15. 🔧 Solución de Problemas</h2>
+
+                <h3>Problemas Comunes y Soluciones</h3>
+
+                <div class="warning">
+                    <h4>Error: "La variable dependiente debe ser binaria"</h4>
+                    <ul>
+                        <li>Verifique que su variable Y solo tenga valores 0 y 1</li>
+                        <li>Si tiene otros valores, recodifíquelos antes de cargar</li>
+                    </ul>
+                </div>
+
+                <div class="warning">
+                    <h4>Error al cargar archivo</h4>
+                    <ul>
+                        <li>Verifique el formato del archivo (.xlsx, .xls, .csv)</li>
+                        <li>Asegúrese de que el archivo no esté abierto en otro programa</li>
+                        <li>Revise que no haya caracteres especiales en los nombres</li>
+                    </ul>
+                </div>
+
+                <div class="warning">
+                    <h4>Modelo no converge</h4>
+                    <ul>
+                        <li>Puede haber separación perfecta en los datos</li>
+                        <li>Intente remover variables problemáticas</li>
+                        <li>Verifique multicolinealidad severa</li>
+                    </ul>
+                </div>
+
+                <div class="warning">
+                    <h4>No se genera el reporte</h4>
+                    <ul>
+                        <li>Asegúrese de haber ejecutado el análisis primero</li>
+                        <li>Verifique que su navegador permita descargas</li>
+                        <li>Intente con el formato HTML en lugar de CSV</li>
+                    </ul>
+                </div>
+
+                <h2 id="glosario">16. 📚 Glosario</h2>
+
+                <table>
+                    <tr>
+                        <th>Término</th>
+                        <th>Definición</th>
+                    </tr>
+                    <tr>
+                        <td><strong>AIC</strong></td>
+                        <td>Criterio de Información de Akaike. Medida de calidad del modelo que penaliza la complejidad.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bagging</strong></td>
+                        <td>Bootstrap Aggregating. Técnica para mejorar la estabilidad de modelos de Machine Learning.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>AUC</strong></td>
+                        <td>Área Bajo la Curva ROC. Medida de rendimiento del clasificador (0.5-1.0).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>BIC</strong></td>
+                        <td>Criterio de Información Bayesiano. Similar al AIC pero con mayor penalización.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bootstrap</strong></td>
+                        <td>Método de remuestreo para estimar la distribución muestral de un estimador.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Coeficiente (B)</strong></td>
+                        <td>Peso de cada variable en la ecuación de regresión.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Especificidad</strong></td>
+                        <td>Proporción de negativos correctamente identificados.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Multicolinealidad</strong></td>
+                        <td>Alta correlación entre variables independientes.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Odds Ratio</strong></td>
+                        <td>Razón de probabilidades. Exp(B) en la salida.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>p-valor</strong></td>
+                        <td>Probabilidad de obtener el resultado si H₀ es verdadera.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Punto de corte</strong></td>
+                        <td>Umbral para clasificar predicciones como 0 o 1.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>R² Nagelkerke</strong></td>
+                        <td>Pseudo R-cuadrado para regresión logística (0-1).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ROC</strong></td>
+                        <td>Receiver Operating Characteristic. Curva de rendimiento del clasificador.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sensibilidad</strong></td>
+                        <td>Proporción de positivos correctamente identificados.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>VIF</strong></td>
+                        <td>Factor de Inflación de Varianza. Medida de multicolinealidad.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Wald</strong></td>
+                        <td>Estadístico de prueba para significancia de coeficientes.</td>
+                    </tr>
+                </table>
+
+                <div class="success">
+                    <h3>📞 Soporte Técnico</h3>
+                    <p>Si necesita ayuda adicional, contacte a su administrador del sistema o consulte la documentación
+                        técnica de la aplicación.</p>
+                </div>
+
+                <div class="info">
+                    <h3>📝 Notas Finales</h3>
+                    <ul>
+                        <li>Guarde regularmente sus resultados y reportes</li>
+                        <li>Verifique siempre los supuestos del modelo</li>
+                        <li>Interprete los resultados en el contexto de su problema</li>
+                        <li>Consulte con un estadístico para análisis complejos</li>
+                    </ul>
+                </div>
+
+                <hr>
+                <p style="text-align: center; color: #7f8c8d; margin-top: 50px;">
+                    <em>Manual de Usuario - Aplicación de Regresión Logística Binomial v1.0</em><br>
+                    <em>© 2025 - Todos los derechos reservados</em>
+                </p>
+        </div>
+</body>
+
+</html>
